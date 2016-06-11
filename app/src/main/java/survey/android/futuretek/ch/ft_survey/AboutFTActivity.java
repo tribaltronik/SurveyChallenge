@@ -42,7 +42,7 @@ public class AboutFTActivity extends BaseActivity {
         userName=getDatabase().get("usersName");
         List<String> textArray;
 
-        textArray = new ArrayList<>();
+        textArray = new ArrayList<String>();
         textArray.add("Futuretek is growing and growing!");
         textArray.add("The goal for the developer section is to bring the best people together and to build incredible things.");
         if(userName!=null)

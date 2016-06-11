@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity {
         ((ViewGroup)findViewById(R.id.textLayout)).removeAllViews();
         List<String> textArray;
         if((userName=getDatabase().get("usersName"))!=null){
-            textArray = new ArrayList<>(3);
+            textArray = new ArrayList<String>(3);
             textArray.add("Hi "+userName+"!");
             textArray.add("Welcome back to the survey of Futuretek.");
             textArray.add("If you want to know more about Futuretek touch the 'NEXT \u25B7' button.");
@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }else{
-            textArray = new ArrayList<>(3);
+            textArray = new ArrayList<String>(3);
             textArray.add("Hi there!");
             textArray.add("This is the survey of Futuretek.");
             textArray.add("What's your name?");
@@ -78,12 +78,14 @@ public class MainActivity extends BaseActivity {
             openInputDialog(new View.OnClickListener() {
                 public void onClick(View v) {
                     EditText userInput = ((EditText) v.findViewById(R.id.userInput));
-                    userName = null;
+                    userName = userInput.getText().toString();
+                    /*
                     try {
                         userName = getDatabase().get("usersName");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    */
                     if (userName == null || userName.isEmpty()) {
                         List<String> textArray = new ArrayList<String>(1);
                         textArray.add("Didn't get your name...");

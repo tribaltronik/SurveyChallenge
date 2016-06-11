@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import java.util.List;
 public class SkillsActivity extends BaseActivity {
     private Button btn_add;
     private ListView listview;
+    private String newSkill = null;
     public List<String> _productlist = new ArrayList<String>();
     private ListAdapter adapter;
     @Override
@@ -45,7 +47,7 @@ public class SkillsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         ((ViewGroup)findViewById(R.id.textLayout)).removeAllViews();
-        List<String> textArray = new ArrayList<>(1);
+        List<String> textArray = new ArrayList<String>(1);
         textArray.add("Please add a developer skill");
         animateText(textArray);
         _productlist.clear();
@@ -89,6 +91,18 @@ public class SkillsActivity extends BaseActivity {
                         adapter.notifyDataSetChanged();
                     }
                 });
+
+                //button to add new skill
+
+                viewHolder.btnAdd = (Button) convertView.findViewById(R.id.AddBtn);
+                viewHolder.btnAdd.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        requestNewSkill();
+
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -101,14 +115,38 @@ public class SkillsActivity extends BaseActivity {
     private class ViewHolder {
         TextView textView;
         Button delBtn;
+        Button btnAdd;
+    }
+
+    private void requestNewSkill(){
+
+            openInputDialog(new View.OnClickListener() {
+                public void onClick(View v) {
+                    EditText userInput = ((EditText) v.findViewById(R.id.userInput));
+                    newSkill = userInput.getText().toString();
+                    if (newSkill == null || newSkill.isEmpty()) {
+                        List<String> textArray = new ArrayList<String>(1);
+                        textArray.add("The text is empty..");
+                        animateText(textArray, new AnimationListDone() {
+                            public void done() {
+                                //activateNextButton();
+                            }
+                        });
+                    } else {
+                        insertSkill(newSkill);
+                    }
+                }
+            });
 
     }
 
     private void insertSkill(String skill){
         try {
             getDatabase().putSkill(skill);
+            _productlist.clear();
             _productlist = getDatabase().getAllSkills();
-            adapter.notifyDataSetChanged();
+            adapter = new ListAdapter(this);
+            listview.setAdapter(adapter);
         } catch (Exception e) {
             e.printStackTrace();
         }

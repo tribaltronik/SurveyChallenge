@@ -92,9 +92,11 @@ public class SkillsActivity extends BaseActivity {
                     }
                 });
 
+                /*
                 //button to add new skill
-
-                viewHolder.btnAdd = (Button) convertView.findViewById(R.id.AddBtn);
+                viewHolder.btnAdd = (Button) convertView.findViewById(R.id.addButton);
+                viewHolder.btnAdd.setEnabled(true);
+                viewHolder.btnAdd.setVisibility(View.VISIBLE);
                 viewHolder.btnAdd.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         requestNewSkill();
@@ -102,7 +104,7 @@ public class SkillsActivity extends BaseActivity {
                         adapter.notifyDataSetChanged();
                     }
                 });
-
+*/
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
